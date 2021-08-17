@@ -13,8 +13,15 @@ class myDataset(Dataset):
     def __len__(self):
         return len(self.data)
 
-    def __gettime__(self,idx):
-        data = (self.data[idx],self.frequency.iloc[[idx]])
+    def __getitem__(self,idx):
+        a = []
+        with open(self.data[idx], "r") as f:
+            data = f.readline()
+
+            for i in data:
+                a.append(int(i))
+            a = torch.tensor(a)
+        data = (a,torch.tensor(self.frequency.iloc[idx]))
         return data
 
 

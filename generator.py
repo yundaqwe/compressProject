@@ -2,7 +2,7 @@ import torch
 from torch import nn
 
 
-class Generator(nn.Module):
+class GeneratorA(nn.Module):
     def __init__(self, noise, frequency):
         super().__init__()
         self.noise = noise
@@ -39,11 +39,11 @@ n_epoch = 1 # 50
 n_critic = 1 # 5
 # clip_value = 0.01
 # Model
-G = Generator(256,256)
-for module in G.modules():
-    print(module)
-# G.train()
-# Loss
-criterion = nn.CrossEntropyLoss()
-# Optimizer
-opt_G = torch.optim.Adam(G.parameters(), lr=lr, betas=(0.5, 0.999))
+# G = Generator(256,256)
+# for module in G.modules():
+#     print(module)
+# # G.train()
+# # Loss
+# criterion = nn.CrossEntropyLoss()
+# # Optimizer
+# opt_G = torch.optim.Adam(G.parameters(), lr=lr, betas=(0.5, 0.999))

@@ -2,7 +2,7 @@ import torch
 from torch import nn
 
 
-class Generator(nn.Module):
+class GeneratorB(nn.Module):
     def __init__(self, filesize,codesize):
         super().__init__()
         self.filesize = filesize
