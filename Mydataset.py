@@ -4,15 +4,17 @@ import torch
 from torch.utils.data import Dataset
 import pandas as pd
 class myDataset(Dataset):
-    def __init__(self,dir,frequencydir ):
+    def __init__(self,dir,frequencycsv ):
         self.data = os.listdir(dir)
-        self.frequencydir=os.listdir(frequencydir)
+        for i in range(len(self.data)):
+            self.data[i]=os.path.join(dir,self.data[i])
+        self.frequency=pd.read_csv(frequencycsv)
 
     def __len__(self):
-        return len(self.csv_data)
+        return len(self.data)
 
     def __gettime__(self,idx):
-        data = (self.data[idx],self.txt_data[idx])
+        data = (self.data[idx],self.frequency.iloc[[idx]])
         return data
-import torch.nn as nn
-import pandas as pd
+
+
