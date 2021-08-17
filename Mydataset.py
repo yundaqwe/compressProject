@@ -15,4 +15,4 @@ class myDataset(Dataset):
         data = (self.data[idx],self.txt_data[idx])
         return data
 import torch.nn as nn
-print(callable(nn.Sequential))
+import pandas as pd
