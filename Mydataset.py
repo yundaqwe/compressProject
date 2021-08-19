@@ -8,7 +8,7 @@ class myDataset(Dataset):
         self.data = os.listdir(dir)
         for i in range(len(self.data)):
             self.data[i]=os.path.join(dir,self.data[i])
-        self.frequency=pd.read_csv(frequencycsv)
+        self.frequency=pd.read_csv(frequencycsv,index_col=0)
 
     def __len__(self):
         return len(self.data)
