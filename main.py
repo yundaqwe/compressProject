@@ -12,7 +12,7 @@ from qqdm  import qqdm
 batch_size = 64
 z_dim = 100
 z_sample = Variable(torch.randn(z_dim))
-print(z_sample)
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,2,1,3'
 lr = 1e-4
 
 """ Medium: WGAN, 50 epoch, n_critic=5, clip_value=0.01 """
@@ -26,11 +26,13 @@ os.makedirs(log_dir, exist_ok=True)
 os.makedirs(ckpt_dir, exist_ok=True)
 
 # Model
-GA = GeneratorA(256, 256).cuda()
-GB = GeneratorB(1024 * 100,256).cuda()
+GA = GeneratorA(256, 256)
+GB = GeneratorB(1024 * 10,256)
+GA=nn.DataParallel(GA).cuda()
+GB=nn.DataParallel(GB).cuda()
 GA.train()
 GB.train()
-
+print(torch.cuda.device_count())
 # Loss
 criterion = nn.MSELoss()
 
@@ -43,13 +45,16 @@ opt_G = torch.optim.Adam(GA.parameters(), lr=lr, betas=(0.5, 0.999))
 
 # DataLoader
 dataset=myDataset("dataset","filelabel.csv")
-dataloader = DataLoader(dataset, batch_size=2, shuffle=True, num_workers=1)#TODO
+dataloader = DataLoader(dataset, batch_size=8, shuffle=True, num_workers=1,drop_last=True)#TODO
 z = Variable(torch.randn( z_dim))
 a = []
 steps = 0
 for e, epoch in enumerate(range(n_epoch)):
     progress_bar = qqdm(dataloader)
     for i, data in enumerate(progress_bar):
+        print(len(data))
+        if(len(data))<2:
+            continue
         file = data[0].float()
         file = file.cuda()
 

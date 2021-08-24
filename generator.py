@@ -9,10 +9,10 @@ class GeneratorA(nn.Module):
         self.frequency = frequency
         net = []
 
-        channels_in = [self.noise + self.frequency, 1024, 2048,4096,4096*2,4096*4]
+        channels_in = [self.noise + self.frequency, 1024, 2048,4096,4096*2,4096*2]
         # channels_in = [self.noise + self.frequency, 512, 256, 128, 64]
-        channels_out = [1024, 2048, 4096,4096*2,4096*4,102400]
-        active = ["R", "R", "R", "R","tanh","tanh"]
+        channels_out = [1024, 2048, 4096,4096*2,4096*2,10240]
+        active = ["R", "R", "R", "R","tanh","tanh","R"]
 
         for i in range(len(channels_in)):
             net.append(nn.Linear(in_features=channels_in[i], out_features=channels_out[i],

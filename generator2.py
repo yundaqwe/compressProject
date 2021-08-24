@@ -8,10 +8,11 @@ class GeneratorB(nn.Module):
         self.filesize = filesize
         self.codesize = codesize
         net = []
-        channels_in = [self.filesize ,  2048,1024]
+        channels_in = [4096 ,  2048,1024]
         # channels_in = [self.noise + self.frequency, 512, 256, 128, 64]
         channels_out = [2048, 1024,self.codesize ]
         active = ["R", "R",  "R"]
+        self.conv=nn.Sequential(nn.Conv1d(in_channels=1,out_channels=1,kernel_size=self.filesize-4096+1))
 
         for i in range(len(channels_in)):
             net.append(nn.Linear(in_features=channels_in[i], out_features=channels_out[i],
@@ -25,7 +26,10 @@ class GeneratorB(nn.Module):
         self.generator = nn.Sequential(*net)
 
     def forward(self, x):
-        out = self.generator(x)
+        out=self.conv(x.unsqueeze(1))
+
+        # print(out.shape)
+        out = self.generator(out.squeeze(1))
         return out
 # # Training hyperparameters
 # batch_size = 64
