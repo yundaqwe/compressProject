@@ -12,8 +12,8 @@ class GeneratorB(nn.Module):
         # channels_in = [self.noise + self.frequency, 512, 256, 128, 64]
         channels_out = [2048, 1024,self.codesize ]
         active = ["R", "R",  "R"]
-        self.conv=nn.Sequential(nn.Conv1d(in_channels=1,out_channels=1,kernel_size=self.filesize-4096+1))
-
+        self.conv=nn.Sequential(nn.Conv1d(in_channels=1,out_channels=10,kernel_size=self.filesize-4096*2+1)
+			,nn.Conv1d(in_channels=10,out_channels=1,kernel_size=4096*2-4096+1))
         for i in range(len(channels_in)):
             net.append(nn.Linear(in_features=channels_in[i], out_features=channels_out[i],
                                          bias=True))
